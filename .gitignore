@@ -72,3 +72,6 @@ fabric.properties
 
 # Project specific
 faster_rcnn/saved_models
+faster_rcnn/example_model.ckpt
+images_inferred
+data_catalog
