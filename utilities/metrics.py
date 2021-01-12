@@ -2,13 +2,13 @@ import torch
 from collections import Counter
 from torchvision.ops import box_iou
 
+
 # Source: https://github.com/PyTorchLightning/pytorch-lightning/pull/4564/files
-def object_detection_mean_average_precision(
+def mean_average_precision(
         preds: torch.Tensor, target: torch.Tensor, iou_threshold: float, ap_calculation: str
 ) -> torch.Tensor:
     """
-    Compute mean average precision for object detection task. Calculates average precision
-    using AUC.
+    Compute mean average precision for object detection task
     Args:
         preds: an Nx7 batch of predictions with representation
                ``[image_idx, class_pred, class_prob, x_min, y_min, x_max, y_max]``
@@ -21,7 +21,7 @@ def object_detection_mean_average_precision(
         mean of the average precision for each class in object detection task.
     """
     if box_iou is None:
-        raise ImportError('You want to use `torchvision` which is not installed yet,'
+        raise ImportError('`mean_average_precision` metric requires `torchvision`, which is not installed. '
                           ' install it with `pip install torchvision`.')
     classes = torch.cat([preds[:, 1], target[:, 1]]).unique()
     average_precisions = torch.zeros(len(classes))
@@ -75,33 +75,3 @@ def object_detection_mean_average_precision(
         average_precisions[class_idx] = average_precision
     mean_average_precision = torch.mean(average_precisions)
     return mean_average_precision
-
-
-
-# [{'boxes': tensor([[1255.3615, 1008.5653, 1386.4458, 1153.7473],
-#         [1133.2731, 1005.9958, 1264.3574, 1152.4625],
-#         [1012.4699, 1004.7109, 1144.8393, 1158.8865],
-#         [ 284.0161,  623.1264,  529.2571,  756.7451],
-#         [ 525.4016,  624.4111,  774.7189,  760.5996],
-#         [ 855.6828,  630.8351, 1105.0000,  773.4475],
-#         [ 572.9518,  808.1371,  813.2730,  955.8887],
-#         [ 359.6186,  811.9914,  579.3775,  950.7495],
-#         [ 201.5461,  813.2762,  366.0442,  940.4711],
-#         [ 868.5341,  815.8459, 1053.5944,  943.0407],
-#         [1049.7389,  814.5610, 1230.9438,  941.7559],
-#         [1183.3936,  265.9529, 1374.8796,  423.9829],
-#         [1007.3294,  271.0921, 1189.8193,  429.1220],
-#         [ 827.4096,  271.0921, 1015.0402,  429.1220],
-#         [ 531.8273,  258.2442,  596.0843,  398.2869],
-#         [ 476.5663,  258.2442,  538.2530,  395.7173],
-#         [ 413.5943,  256.9593,  484.2771,  397.0021],
-#         [ 359.6186,  259.5289,  422.5904,  393.1478],
-#         [ 548.5342,  403.4261,  615.3614,  535.7602],
-#         [ 488.1326,  398.2869,  549.8194,  533.1905],
-#         [ 313.3533, 1004.7109,  531.8273, 1151.1777]], device='cuda:0',
-#        dtype=torch.float64), 'labels': tensor([ 2,  2,  2,  3,  3,  4,  8,  8,  8, 12, 12, 16, 20, 20, 22, 22, 22, 22,
-#         22, 22, 23], device='cuda:0'), 'image_id': tensor([26], device='cuda:0'), 'area': tensor([19031.0859, 19199.5020, 20408.1367, 32768.8125, 33954.1289, 35555.7305,
-#         35507.8555, 30493.3242, 20923.3047, 23538.7109, 23048.3223, 30260.5156,
-#         28838.8770, 29651.2402,  8998.7402,  8480.2773,  9898.6123,  8414.2188,
-#          8843.5234,  8321.7686, 31999.1719], device='cuda:0'), 'iscrowd': tensor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#        device='cuda:0', dtype=torch.uint8)}]

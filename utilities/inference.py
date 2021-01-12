@@ -8,8 +8,8 @@ from PIL import Image
 from pathlib import Path
 
 
-def display_inferred_image(model: pl.LightningModule, image: Tensor, labels_dict: dict, show_image: bool = False,
-                           score_threshold: float = 0.5, save_dir: str = None, save_name: str = None):
+def infer_image(model: pl.LightningModule, image: Tensor, labels_dict: dict, show_image: bool = False,
+                score_threshold: float = 0.5, save_dir: str = None, save_name: str = None):
     """
     Display X-th image in the list with inferred bounding boxes
 
