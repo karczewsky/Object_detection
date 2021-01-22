@@ -16,3 +16,5 @@ Otwieramy Jupyter notebook w którym przygotowany jest model:
 `jupyter notebook faster_rcnn.ipynb `
 
 Notebook w bazowej konfiguracji otwiera instancję serwera TensorBoard na porcie 9000: [Link](http://localhost:9000)
+
+Dalsze kroki korzystania z rozwiązania są opisane w notebooku.
