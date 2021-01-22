@@ -73,5 +73,5 @@ fabric.properties
 # Project specific
 utilities/saved_models
 utilities/example_model.ckpt
-data/inference
 saved_models
+.ipynb_checkpoints
